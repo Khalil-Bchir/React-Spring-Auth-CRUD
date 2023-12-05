@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Menu</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Menu</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">
+                    <a th:href="@{'/api/createMenu'}" class="btn btn-primary fa fa-plus-square"></a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="menu, rowStat : ${menu}">
+                    <td th:text="${rowStat.index + 1}"></td>
+                    <td th:text="${menu.name}"></td>
+                    <td>
+                        <a th:href="@{'/api/getMenu/'+${menu.id}}" class="btn btn-success fa fa-eye"></a>
+                    </td>
+
+                    <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+                        <a th:href="@{'/api/deleteMenu/'+${menu.id}}" class="btn btn-danger fa fa-trash"></a>
+                        <a th:href="@{'/api/editMenu/'+${menu.id}}" class="btn btn-warning fa fa-edit"></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
