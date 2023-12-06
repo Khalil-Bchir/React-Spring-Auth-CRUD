@@ -5,7 +5,6 @@ import com.restaurant.restaurant.entities.Menu;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +26,8 @@ public class ServiceMenu implements IServiceMenu {
 
     @Override
     public  Menu getMenu(Long id){
-        return null;
+        Optional<Menu> optionalMenu = menuRepository.findById(id);
+        return optionalMenu.orElse(null);
     }
 
     @Override

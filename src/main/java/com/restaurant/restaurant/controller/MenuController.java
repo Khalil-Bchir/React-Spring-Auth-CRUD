@@ -27,7 +27,7 @@ public class MenuController {
     }
 
     @PostMapping("/api/createMenu")
-    public String saveMenu(@Valid Menu menu, BindingResult bindingResult) throws IOException{
+    public String saveMenu(@Valid Menu menu, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "createMenu";
         }
@@ -43,7 +43,7 @@ public class MenuController {
     }
 
     @GetMapping("/api/getMenu/{id}")
-    public String getMenuById(@PathVariable("id") Long id, Model model){
+    public String getMenu(@PathVariable("id") Long id, Model model){
         Menu menu =  serviceMenu.getMenu(id);
         model.addAttribute("menu", menu);
         return "checkMenu";
