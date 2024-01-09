@@ -7,64 +7,61 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/api/menu")
 public class MenuController {
     ServiceMenu serviceMenu;
 
-    @GetMapping("/api/createMenu")
+    @GetMapping("/createMenu")
     public String showMenuForm(Model m) {
         m.addAttribute("menu", new Menu());
         return "createMenu";
     }
 
-    @PostMapping("/api/createMenu")
+    @PostMapping("/createMenu")
     public String saveMenu(@Valid Menu menu, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "createMenu";
         }
         serviceMenu.saveMenu(menu);
-        return "redirect:/api/getMenu";
+        return "redirect:/api/menu/getMenu";
     }
 
-    @GetMapping("/api/getMenu")
+    @GetMapping("/getMenu")
     public String getAllMenu(Model m) {
             List<Menu> menu = serviceMenu.getAllMenu();
             m.addAttribute("menu", menu);
             return "menu";
     }
 
-    @GetMapping("/api/getMenu/{id}")
+    @GetMapping("/getMenu/{id}")
     public String getMenu(@PathVariable("id") Long id, Model model){
         Menu menu =  serviceMenu.getMenu(id);
         model.addAttribute("menu", menu);
         return "checkMenu";
     }
 
-    @GetMapping("/api/deleteMenu/{id}")
+    @GetMapping("/deleteMenu/{id}")
     public String deleteMenu(@PathVariable ("id") Long idMenu){
         serviceMenu.deleteMenu(idMenu);
-        return "redirect:/api/getMenu";
+        return "redirect:/api/menu/getMenu";
     }
 
-    @GetMapping("/api/editMenu/{id}")
+    @GetMapping("/editMenu/{id}")
     public String editMenuForm(@PathVariable("id") Long id, Model model){
         Menu menu = serviceMenu.getMenu(id);
         model.addAttribute("menu", menu);
         return "editMenu";
     }
 
-    @PostMapping("/api/editMenu/{id}")
+    @PostMapping("/editMenu/{id}")
     public String editMenu(@PathVariable("id") Long id, @ModelAttribute Menu editedMenu){
         serviceMenu.editMenu(id, editedMenu);;
-        return "redirect:/api/getMenu";
+        return "redirect:/api/menu/getMenu";
     }
 }

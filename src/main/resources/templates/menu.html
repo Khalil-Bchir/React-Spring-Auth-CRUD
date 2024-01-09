@@ -4,7 +4,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta charset="UTF-8">
     <title>Menu</title>
 </head>
@@ -16,9 +16,10 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Menu</th>
+                    <th scope="col">Items</th>
                     <th scope="col">Actions</th>
                     <th scope="col">
-                    <a th:href="@{'/api/createMenu'}" class="btn btn-primary fa fa-plus-square"></a>
+                    <a th:href="@{'/api/menu/createMenu'}" class="btn btn-primary fa fa-plus-square"></a>
                     </th>
                 </tr>
             </thead>
@@ -27,13 +28,21 @@
                     <td th:text="${rowStat.index + 1}"></td>
                     <td th:text="${menu.name}"></td>
                     <td>
-                        <a th:href="@{'/api/getMenu/'+${menu.id}}" class="btn btn-success fa fa-eye"></a>
+                        <ul>
+                            <li th:each="item : ${menu.items}">
+                                <a th:href="@{'/api/items/getItem/' + ${item.id}}" th:text="${item.name}"></a>
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a th:href="@{'/api/menu/getMenu/'+${menu.id}}" class="btn btn-success fa fa-eye"></a>
                     </td>
 
                     <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
 
-                        <a th:href="@{'/api/deleteMenu/'+${menu.id}}" class="btn btn-danger fa fa-trash"></a>
-                        <a th:href="@{'/api/editMenu/'+${menu.id}}" class="btn btn-warning fa fa-edit"></a>
+                        <a th:href="@{'/api/menu/deleteMenu/'+${menu.id}}" class="btn btn-danger fa fa-trash"></a>
+                        <a th:href="@{'/api/menu/editMenu/'+${menu.id}}" class="btn btn-warning fa fa-edit"></a>
+                        <a th:href="@{'/api/items/createForm'}" class="btn btn-info fa fa-plus"></a>
                     </td>
                 </tr>
             </tbody>
